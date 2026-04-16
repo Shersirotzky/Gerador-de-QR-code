@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
   <div class="noise"></div>
@@ -37,35 +36,32 @@
     </section>
 
     <div class="app-container">
-      <!-- Left: Form -->
       <div class="form-panel">
         <div class="tabs">
-          <button class="tab active" data-tab="link">
+          <button class="tab active" data-tab="link" type="button">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             Link
           </button>
-          <button class="tab" data-tab="phone">
+          <button class="tab" data-tab="phone" type="button">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Telefone
           </button>
-          <button class="tab" data-tab="wifi">
+          <button class="tab" data-tab="wifi" type="button">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
             WiFi
           </button>
         </div>
 
-        <!-- Link Tab -->
         <div class="tab-content active" id="tab-link">
           <div class="field">
-            <label>URL ou Link</label>
+            <label for="link-url">URL ou Link</label>
             <input type="url" id="link-url" placeholder="https://seusite.com.br" />
           </div>
         </div>
 
-        <!-- Phone Tab -->
         <div class="tab-content" id="tab-phone">
           <div class="field">
-            <label>Número de Telefone</label>
+            <label for="phone-number">Número de Telefone</label>
             <input type="tel" id="phone-number" placeholder="+55 11 99999-9999" />
           </div>
           <div class="field">
@@ -86,28 +82,27 @@
             </div>
           </div>
           <div class="field" id="sms-message-field" style="display:none">
-            <label>Mensagem (opcional)</label>
+            <label for="sms-message">Mensagem (opcional)</label>
             <textarea id="sms-message" placeholder="Digite a mensagem pré-definida..."></textarea>
           </div>
         </div>
 
-        <!-- WiFi Tab -->
         <div class="tab-content" id="tab-wifi">
           <div class="field">
-            <label>Nome da Rede (SSID)</label>
+            <label for="wifi-ssid">Nome da Rede (SSID)</label>
             <input type="text" id="wifi-ssid" placeholder="MinhaRede" />
           </div>
           <div class="field">
-            <label>Senha</label>
+            <label for="wifi-password">Senha</label>
             <div class="input-with-toggle">
               <input type="password" id="wifi-password" placeholder="Senha do WiFi" />
-              <button class="toggle-password" id="toggle-pwd">
+              <button class="toggle-password" id="toggle-pwd" type="button">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </div>
           </div>
           <div class="field">
-            <label>Segurança</label>
+            <label for="wifi-security">Segurança</label>
             <select id="wifi-security">
               <option value="WPA">WPA/WPA2</option>
               <option value="WEP">WEP</option>
@@ -122,26 +117,25 @@
           </div>
         </div>
 
-        <!-- Customization -->
         <div class="customization">
           <h3 class="section-title">Personalização</h3>
           <div class="custom-row">
             <div class="field">
-              <label>Cor do QR</label>
+              <label for="qr-color">Cor do QR</label>
               <div class="color-picker-wrap">
                 <input type="color" id="qr-color" value="#0a0a0a" />
                 <span id="qr-color-label">#0a0a0a</span>
               </div>
             </div>
             <div class="field">
-              <label>Fundo</label>
+              <label for="bg-color">Fundo</label>
               <div class="color-picker-wrap">
                 <input type="color" id="bg-color" value="#ffffff" />
                 <span id="bg-color-label">#ffffff</span>
               </div>
             </div>
             <div class="field">
-              <label>Tamanho</label>
+              <label for="qr-size">Tamanho</label>
               <select id="qr-size">
                 <option value="200">Pequeno</option>
                 <option value="300" selected>Médio</option>
@@ -152,13 +146,12 @@
           </div>
         </div>
 
-        <button class="generate-btn" id="generate-btn">
+        <button class="generate-btn" id="generate-btn" type="button">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           Gerar QR Code
         </button>
       </div>
 
-      <!-- Right: Preview -->
       <div class="preview-panel">
         <div class="preview-card" id="preview-card">
           <div class="preview-empty" id="preview-empty">
@@ -184,11 +177,11 @@
         </div>
 
         <div class="download-actions" id="download-actions" style="display:none">
-          <button class="dl-btn dl-png" id="dl-png">
+          <button class="dl-btn dl-png" id="dl-png" type="button">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Baixar PNG
           </button>
-          <button class="dl-btn dl-pdf" id="dl-pdf">
+          <button class="dl-btn dl-pdf" id="dl-pdf" type="button">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             Baixar PDF
           </button>
@@ -209,7 +202,7 @@
   </main>
 
   <footer>
-    <p>QRStudio — Gerador gratuito de QR Codes</p>
+    <p>QRStudio — Sher Dias 2026</p>
   </footer>
 
   <script type="module" src="/src/main.js"></script>
