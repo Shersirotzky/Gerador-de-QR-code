@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador QR Code</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h1>Gerador de QR Code</h1>
+
+  <input id="input" placeholder="Digite um link, telefone ou texto"/>
+
+  <div id="qrcode"></div>
+
+  <div class="buttons">
+    <button onclick="generateQR()">Gerar</button>
+    <button onclick="downloadPNG()">PNG</button>
+    <button onclick="downloadPDF()">PDF</button>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
