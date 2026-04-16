@@ -4,8 +4,6 @@ Gerador de QR Code web para Wi-Fi, links, telefones e endereços. Exporta em PNG
 
 Interface web moderna pra gerar QR Codes de Wi-Fi, links, telefones e endereços em segundos. 100% client-side, sem backend.
 
-![preview](https://via.placeholder.com/800x400/0f172a/38bdf8?text=Preview+do+Gerador+de+QR+Code)
-
 ## ✨ Funcionalidades
 
 - **4 tipos de QR Code**: Wi-Fi, Link, Telefone e Endereço
