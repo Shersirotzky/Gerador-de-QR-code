@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Studio — Gerador de QR Code</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="10" height="10" rx="1.5" fill="currentColor"/>
+          <rect x="16" y="2" width="10" height="10" rx="1.5" fill="currentColor"/>
+          <rect x="2" y="16" width="10" height="10" rx="1.5" fill="currentColor"/>
+          <rect x="16" y="16" width="4" height="4" rx="0.5" fill="currentColor" opacity="0.5"/>
+          <rect x="22" y="16" width="4" height="4" rx="0.5" fill="currentColor" opacity="0.5"/>
+          <rect x="16" y="22" width="4" height="4" rx="0.5" fill="currentColor" opacity="0.5"/>
+          <rect x="22" y="22" width="4" height="4" rx="0.5" fill="currentColor"/>
+        </svg>
+      </div>
+      <span>QR<strong>Studio</strong></span>
+    </div>
+    <div class="header-tag">Gerador Gratuito</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Crie seu <span class="accent">QR Code</span><br>em segundos</h1>
+      <p class="subtitle">Links, telefones, WiFi — baixe em PNG ou PDF, pronto para usar.</p>
+    </section>
+
+    <div class="app-container">
+      <!-- Left: Form -->
+      <div class="form-panel">
+        <div class="tabs">
+          <button class="tab active" data-tab="link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            Link
+          </button>
+          <button class="tab" data-tab="phone">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Telefone
+          </button>
+          <button class="tab" data-tab="wifi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            WiFi
+          </button>
+        </div>
+
+        <!-- Link Tab -->
+        <div class="tab-content active" id="tab-link">
+          <div class="field">
+            <label>URL ou Link</label>
+            <input type="url" id="link-url" placeholder="https://seusite.com.br" />
+          </div>
+        </div>
+
+        <!-- Phone Tab -->
+        <div class="tab-content" id="tab-phone">
+          <div class="field">
+            <label>Número de Telefone</label>
+            <input type="tel" id="phone-number" placeholder="+55 11 99999-9999" />
+          </div>
+          <div class="field">
+            <label>Tipo</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="phone-type" value="call" checked />
+                <span>Ligar</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="phone-type" value="sms" />
+                <span>SMS</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="phone-type" value="whatsapp" />
+                <span>WhatsApp</span>
+              </label>
+            </div>
+          </div>
+          <div class="field" id="sms-message-field" style="display:none">
+            <label>Mensagem (opcional)</label>
+            <textarea id="sms-message" placeholder="Digite a mensagem pré-definida..."></textarea>
+          </div>
+        </div>
+
+        <!-- WiFi Tab -->
+        <div class="tab-content" id="tab-wifi">
+          <div class="field">
+            <label>Nome da Rede (SSID)</label>
+            <input type="text" id="wifi-ssid" placeholder="MinhaRede" />
+          </div>
+          <div class="field">
+            <label>Senha</label>
+            <div class="input-with-toggle">
+              <input type="password" id="wifi-password" placeholder="Senha do WiFi" />
+              <button class="toggle-password" id="toggle-pwd">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Segurança</label>
+            <select id="wifi-security">
+              <option value="WPA">WPA/WPA2</option>
+              <option value="WEP">WEP</option>
+              <option value="">Aberta (sem senha)</option>
+            </select>
+          </div>
+          <div class="field checkbox-field">
+            <label class="checkbox-label">
+              <input type="checkbox" id="wifi-hidden" />
+              <span>Rede oculta</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Customization -->
+        <div class="customization">
+          <h3 class="section-title">Personalização</h3>
+          <div class="custom-row">
+            <div class="field">
+              <label>Cor do QR</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="qr-color" value="#0a0a0a" />
+                <span id="qr-color-label">#0a0a0a</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Fundo</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="bg-color" value="#ffffff" />
+                <span id="bg-color-label">#ffffff</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Tamanho</label>
+              <select id="qr-size">
+                <option value="200">Pequeno</option>
+                <option value="300" selected>Médio</option>
+                <option value="400">Grande</option>
+                <option value="600">XL</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button class="generate-btn" id="generate-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Gerar QR Code
+        </button>
+      </div>
+
+      <!-- Right: Preview -->
+      <div class="preview-panel">
+        <div class="preview-card" id="preview-card">
+          <div class="preview-empty" id="preview-empty">
+            <div class="empty-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <rect x="6" y="6" width="22" height="22" rx="3" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                <rect x="36" y="6" width="22" height="22" rx="3" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                <rect x="6" y="36" width="22" height="22" rx="3" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                <rect x="36" y="36" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                <rect x="50" y="36" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                <rect x="36" y="50" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+              </svg>
+            </div>
+            <p>Preencha os dados ao lado<br>e clique em <strong>Gerar</strong></p>
+          </div>
+
+          <div class="preview-result" id="preview-result" style="display:none">
+            <div class="qr-wrapper" id="qr-wrapper">
+              <canvas id="qr-canvas"></canvas>
+            </div>
+            <div class="qr-info" id="qr-info"></div>
+          </div>
+        </div>
+
+        <div class="download-actions" id="download-actions" style="display:none">
+          <button class="dl-btn dl-png" id="dl-png">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Baixar PNG
+          </button>
+          <button class="dl-btn dl-pdf" id="dl-pdf">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Baixar PDF
+          </button>
+        </div>
+
+        <div class="tips">
+          <div class="tip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Use tamanho XL para impressão
+          </div>
+          <div class="tip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Contraste alto = melhor leitura
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>QRStudio — Gerador gratuito de QR Codes</p>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
