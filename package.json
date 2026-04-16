@@ -1,0 +1,17 @@
+{
+  "name": "qr-generator",
+  "version": "1.0.0",
+  "description": "QR Code Generator - Links, Phone, WiFi",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.3",
+    "jspdf": "^2.5.1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
