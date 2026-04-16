@@ -44,21 +44,7 @@ qr-generator/
 └── .gitignore
 ```
 
-## 🔧 Deploy com GitHub Actions
-
-O workflow em `.github/workflows/deploy.yml` faz automaticamente:
-
-1. Instala as dependências (`npm ci`)
-2. Faz o build (`npm run build`)
-3. Publica na branch `gh-pages` (GitHub Pages)
-
-### Ativar GitHub Pages
-
-1. Vá em **Settings → Pages** no seu repositório
-2. Em **Source**, selecione a branch `gh-pages`
-3. Salve — o site ficará disponível em `https://seu-usuario.github.io/qr-generator/`
-
-## 🛠 Tecnologias
+## 🛠 Tecnologias Utilizadas
 
 - [Vite](https://vitejs.dev/) — Build tool
 - [qrcode](https://github.com/soldair/node-qrcode) — Geração de QR Code
