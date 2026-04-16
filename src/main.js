@@ -1,5 +1,6 @@
 import QRCode from 'qrcode';
 import { jsPDF } from 'jspdf';
+// import './style.css'
 
 // ============================================
 // State
