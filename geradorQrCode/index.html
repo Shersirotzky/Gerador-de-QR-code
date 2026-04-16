@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de QR Code</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --card:#111827;
+      --card-2:#1f2937;
+      --line:#334155;
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+      --accent:#38bdf8;
+      --accent-2:#22c55e;
+      --accent-3:#8b5cf6;
+      --danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:linear-gradient(135deg,#020617,#0f172a 45%,#111827);
+      color:var(--text);
+      min-height:100vh;
+      padding:24px;
+    }
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+    }
+    .card{
+      background:rgba(17,24,39,.92);
+      border:1px solid rgba(148,163,184,.18);
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.35);
+      backdrop-filter: blur(12px);
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:2rem;
+      line-height:1.1;
+    }
+    p{
+      margin:0 0 18px;
+      color:var(--muted);
+    }
+    .tabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:18px 0 22px;
+    }
+    .tab{
+      border:none;
+      background:#0b1220;
+      color:var(--text);
+      padding:12px 16px;
+      border-radius:12px;
+      cursor:pointer;
+      border:1px solid rgba(148,163,184,.2);
+      transition:.2s ease;
+      font-weight:600;
+    }
+    .tab.active{
+      background:linear-gradient(135deg,var(--accent),#2563eb);
+      border-color:transparent;
+    }
+    .form-grid{
+      display:grid;
+      gap:14px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    label{
+      font-size:.95rem;
+      color:#e2e8f0;
+      font-weight:600;
+    }
+    input, select, textarea{
+      width:100%;
+      background:#0b1220;
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:14px 14px;
+      border-radius:14px;
+      outline:none;
+      font-size:1rem;
+    }
+    textarea{min-height:110px; resize:vertical}
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+    button.primary, button.secondary, button.pdf, button.ghost{
+      border:none;
+      border-radius:14px;
+      padding:14px 18px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+      font-size:1rem;
+    }
+    button.primary{
+      background:linear-gradient(135deg,var(--accent),#2563eb);
+      color:white;
+    }
+    button.secondary{
+      background:linear-gradient(135deg,var(--accent-2),#16a34a);
+      color:white;
+    }
+    button.pdf{
+      background:linear-gradient(135deg,var(--accent-3),#6d28d9);
+      color:white;
+    }
+    button.ghost{
+      background:#0b1220;
+      color:var(--text);
+      border:1px solid rgba(148,163,184,.2);
+    }
+    .preview{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:100%;
+      text-align:center;
+    }
+    .preview-box{
+      width:min(100%, 360px);
+      min-height:360px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:24px;
+      background:linear-gradient(180deg,#ffffff,#e2e8f0);
+      padding:18px;
+      box-shadow: inset 0 0 0 1px rgba(15,23,42,.08);
+    }
+    #qrcode{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:white;
+      padding:14px;
+      border-radius:18px;
+      min-width:260px;
+      min-height:260px;
+    }
+    .hint{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .hidden{display:none}
+    .pill{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(56,189,248,.12);
+      color:#7dd3fc;
+      border:1px solid rgba(56,189,248,.2);
+      font-size:.85rem;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+    .status{
+      min-height:24px;
+      margin-top:12px;
+      font-weight:600;
+    }
+    .ok{color:#4ade80}
+    .error{color:#f87171}
+    @media (max-width: 860px){
+      .container{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
+      body{padding:16px}
+      .card{padding:18px}
+      h1{font-size:1.7rem}
+      .preview-box{min-height:300px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="card">
+      <div class="pill">QR Code Generator</div>
+      <h1>Gerador de QR Code</h1>
+      <p>Crie QR Codes para Wi‑Fi, endereços, links e telefones em poucos segundos.</p>
+
+      <div class="tabs">
+        <button class="tab active" data-type="wifi">Wi‑Fi</button>
+        <button class="tab" data-type="link">Link</button>
+        <button class="tab" data-type="phone">Telefone</button>
+        <button class="tab" data-type="address">Endereço</button>
+      </div>
+
+      <form id="qrForm" class="form-grid">
+        <div id="wifiFields" class="form-grid">
+          <div class="field">
+            <label for="ssid">Nome da rede (SSID)</label>
+            <input id="ssid" type="text" placeholder="Ex.: MinhaWifi" />
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="password">Senha</label>
+              <input id="password" type="text" placeholder="Digite a senha" />
+            </div>
+            <div class="field">
+              <label for="security">Segurança</label>
+              <select id="security">
+                <option value="WPA">WPA/WPA2</option>
+                <option value="WEP">WEP</option>
+                <option value="nopass">Sem senha</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="hiddenNetwork">Rede oculta</label>
+            <select id="hiddenNetwork">
+              <option value="false">Não</option>
+              <option value="true">Sim</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="linkFields" class="form-grid hidden">
+          <div class="field">
+            <label for="url">Link</label>
+            <input id="url" type="url" placeholder="https://seusite.com" />
+          </div>
+        </div>
+
+        <div id="phoneFields" class="form-grid hidden">
+          <div class="field">
+            <label for="phone">Telefone</label>
+            <input id="phone" type="tel" placeholder="+5585999999999" />
+          </div>
+        </div>
+
+        <div id="addressFields" class="form-grid hidden">
+          <div class="field">
+            <label for="address">Endereço</label>
+            <textarea id="address" placeholder="Rua, número, bairro, cidade, estado, CEP"></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary">Gerar QR Code</button>
+          <button type="button" id="downloadPNG" class="secondary">Baixar PNG</button>
+          <button type="button" id="downloadPDF" class="pdf">Baixar PDF</button>
+          <button type="button" id="clearBtn" class="ghost">Limpar</button>
+        </div>
+
+        <div id="status" class="status"></div>
+      </form>
+    </section>
+
+    <aside class="card preview">
+      <div class="preview-box">
+        <div id="qrcode"></div>
+      </div>
+      <p class="hint">O QR será exibido aqui.</p>
+    </aside>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab");
+    const sections = {
+      wifi: document.getElementById("wifiFields"),
+      link: document.getElementById("linkFields"),
+      phone: document.getElementById("phoneFields"),
+      address: document.getElementById("addressFields")
+    };
+
+    const form = document.getElementById("qrForm");
+    const qrContainer = document.getElementById("qrcode");
+    const statusEl = document.getElementById("status");
+    const downloadPNG = document.getElementById("downloadPNG");
+    const downloadPDF = document.getElementById("downloadPDF");
+    const clearBtn = document.getElementById("clearBtn");
+
+    let currentType = "wifi";
+    let qrCodeInstance = null;
+
+    function setStatus(message, type="ok"){
+      statusEl.textContent = message;
+      statusEl.className = "status " + type;
+    }
+
+    function switchTab(type){
+      currentType = type;
+      tabs.forEach(tab => tab.classList.toggle("active", tab.dataset.type === type));
+      Object.keys(sections).forEach(key => {
+        sections[key].classList.toggle("hidden", key !== type);
+      });
+      setStatus("");
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => switchTab(tab.dataset.type));
+    });
+
+    function escapeWifi(value){
+      return String(value || "")
+        .replace(/\\/g, "\\\\")
+        .replace(/;/g, "\\;")
+        .replace(/,/g, "\\,")
+        .replace(/:/g, "\\:");
+    }
+
+    function buildPayload(){
+      if(currentType === "wifi"){
+        const ssid = document.getElementById("ssid").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const security = document.getElementById("security").value;
+        const hidden = document.getElementById("hiddenNetwork").value;
+
+        if(!ssid){
+          throw new Error("Informe o nome da rede Wi‑Fi.");
+        }
+
+        if(security === "nopass"){
+          return `WIFI:T:nopass;S:${escapeWifi(ssid)};H:${hidden};;`;
+        }
+
+        return `WIFI:T:${security};S:${escapeWifi(ssid)};P:${escapeWifi(password)};H:${hidden};;`;
+      }
+
+      if(currentType === "link"){
+        let url = document.getElementById("url").value.trim();
+        if(!url){
+          throw new Error("Informe um link.");
+        }
+        if(!/^https?:\/\//i.test(url)){
+          url = "https://" + url;
+        }
+        return url;
+      }
+
+      if(currentType === "phone"){
+        const phone = document.getElementById("phone").value.trim();
+        if(!phone){
+          throw new Error("Informe um telefone.");
+        }
+        return `TEL:${phone}`;
+      }
+
+      if(currentType === "address"){
+        const address = document.getElementById("address").value.trim();
+        if(!address){
+          throw new Error("Informe um endereço.");
+        }
+        return address;
+      }
+
+      throw new Error("Tipo de QR inválido.");
+    }
+
+    function renderQRCode(payload){
+      qrContainer.innerHTML = "";
+      qrCodeInstance = new QRCode(qrContainer, {
+        text: payload,
+        width: 260,
+        height: 260,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function getCanvasOrImage(){
+      return {
+        canvas: qrContainer.querySelector("canvas"),
+        img: qrContainer.querySelector("img")
+      };
+    }
+
+    function getImageDataURL(){
+      const { canvas, img } = getCanvasOrImage();
+
+      if (canvas) {
+        return canvas.toDataURL("image/png");
+      }
+
+      if (img) {
+        return img.src;
+      }
+
+      return null;
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      try{
+        const payload = buildPayload();
+        renderQRCode(payload);
+        setStatus("QR Code gerado com sucesso.", "ok");
+      }catch(error){
+        setStatus(error.message, "error");
+      }
+    });
+
+    downloadPNG.addEventListener("click", () => {
+      const dataUrl = getImageDataURL();
+
+      if (!dataUrl) {
+        setStatus("Gere um QR Code antes de baixar.", "error");
+        return;
+      }
+
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `qrcode-${currentType}.png`;
+      link.click();
+      setStatus("Download em PNG iniciado.", "ok");
+    });
+
+    downloadPDF.addEventListener("click", () => {
+      const dataUrl = getImageDataURL();
+
+      if (!dataUrl) {
+        setStatus("Gere um QR Code antes de baixar.", "error");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+      });
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(18);
+      pdf.text("QR Code", 105, 20, { align: "center" });
+
+      const imgSize = 100;
+      const x = (210 - imgSize) / 2;
+      const y = 35;
+
+      pdf.addImage(dataUrl, "PNG", x, y, imgSize, imgSize);
+
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(11);
+      pdf.text(`Tipo: ${currentType.toUpperCase()}`, 105, 145, { align: "center" });
+
+      pdf.save(`qrcode-${currentType}.pdf`);
+      setStatus("Download em PDF iniciado.", "ok");
+    });
+
+    clearBtn.addEventListener("click", () => {
+      form.reset();
+      qrContainer.innerHTML = "";
+      statusEl.textContent = "";
+      switchTab(currentType);
+    });
+
+    document.getElementById("ssid").value = "MinhaWifi";
+    document.getElementById("password").value = "12345678";
+    renderQRCode("WIFI:T:WPA;S:MinhaWifi;P:12345678;H:false;;");
+  </script>
+</body>
+</html>
